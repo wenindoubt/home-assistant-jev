@@ -21,7 +21,8 @@ from dataclasses import dataclass, field
 from typing import Any
 
 from homeassistant.helpers import intent as ha_intent
-from jevclient import (
+
+from .client import (
     Choice,
     ChoiceAnswer,
     JevResponse,
@@ -31,7 +32,6 @@ from jevclient import (
     Score,
     ScoreAnswer,
 )
-
 from .snapshot import ExposedEntity, HomeSnapshot
 
 NONE = "none_of_these"

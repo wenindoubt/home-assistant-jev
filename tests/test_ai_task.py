@@ -13,9 +13,15 @@ from homeassistant.exceptions import HomeAssistantError, ServiceValidationError
 from homeassistant.helpers import device_registry as dr
 from homeassistant.helpers import entity_registry as er
 from homeassistant.util import dt as dt_util
-from jevclient import ChoiceAnswer, JevAuthError, JevError, NoulAnswer, ScoreAnswer
 from pytest_homeassistant_custom_component.common import MockConfigEntry
 
+from custom_components.jev.client import (
+    ChoiceAnswer,
+    JevAuthError,
+    JevError,
+    NoulAnswer,
+    ScoreAnswer,
+)
 from custom_components.jev.const import CONF_DAILY_TOKEN_BUDGET, DOMAIN
 
 from .conftest import build_response

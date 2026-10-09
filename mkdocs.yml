@@ -5,15 +5,15 @@
 # against Pages rather than an account with someone else's business.
 
 site_name: "Jev for Home Assistant"
-site_url: "https://jev.cdevries.dev/"
+site_url: ""
 site_description: >-
   Ask your house a typed question and get a probability, a choice or a score back
   as an entity. A Home Assistant integration for TypeSafe Jev.
-site_author: "AboveColin"
+site_author: "wenindoubt (based on AboveColin/HA-Jev)"
 copyright: "Not affiliated with TypeSafe."
 
-repo_name: "AboveColin/HA-Jev"
-repo_url: "https://github.com/AboveColin/HA-Jev"
+repo_name: "wenindoubt/home-assistant-jev"
+repo_url: "https://github.com/wenindoubt/home-assistant-jev"
 edit_uri: "edit/main/site-docs/"
 docs_dir: "site-docs"
 
@@ -67,6 +67,7 @@ plugins:
         against an optional daily budget.
       sections:
         Getting started:
+          - owned-fork.md: Private installation and Rust architecture
           - index.md: What Jev is and what it answers
           - install.md: Requirements, HACS install and the API key
           - first-question.md: Add a question in the UI and read its sensor
@@ -111,6 +112,7 @@ markdown_extensions:
       alternate_style: true
 
 nav:
+  - Private fork: owned-fork.md
   - Home: index.md
   - Getting started:
       - Install: install.md

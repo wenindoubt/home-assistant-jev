@@ -23,7 +23,8 @@ from homeassistant.core import HomeAssistant
 from homeassistant.exceptions import HomeAssistantError, ServiceValidationError
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.util import dt as dt_util
-from jevclient import (
+
+from .client import (
     Answer,
     ChoiceAnswer,
     JevAuthError,
@@ -32,7 +33,6 @@ from jevclient import (
     NoulAnswer,
     ScoreAnswer,
 )
-
 from .const import DOMAIN
 from .coordinator import JevRuntimeData
 from .entity import build_device_info

@@ -1,20 +1,15 @@
-name: HACS Action
-
+name: HACS structure
 on:
-  push:
-  pull_request:
-  schedule:
-    - cron: "0 0 * * *"
   workflow_dispatch:
-
+permissions:
+  contents: read
 jobs:
   hacs:
-    name: HACS Action
+    if: ${{ !github.event.repository.private }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      # No ignore key. HACS requires this to pass without ignores before the
-      # default-list PR is considered at all.
       - uses: hacs/action@main
         with:
           category: integration
+# HACS does not support private repositories. Keep this only for a future public release.

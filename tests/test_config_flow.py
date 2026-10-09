@@ -8,15 +8,15 @@ import pytest
 from homeassistant import config_entries
 from homeassistant.const import CONF_API_KEY, CONF_URL
 from homeassistant.data_entry_flow import FlowResultType
-from jevclient import (
+from pytest_homeassistant_custom_component.common import MockConfigEntry
+
+from custom_components.jev.client import (
     DEFAULT_BASE_URL,
     DEFAULT_MODEL,
     JevAuthError,
     JevConnectionError,
     JevValidationError,
 )
-from pytest_homeassistant_custom_component.common import MockConfigEntry
-
 from custom_components.jev.const import (
     CONF_ADVANCED,
     CONF_DAILY_TOKEN_BUDGET,

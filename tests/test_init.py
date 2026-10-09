@@ -13,12 +13,12 @@ from homeassistant.const import CONF_API_KEY, CONF_URL
 from homeassistant.helpers import issue_registry as ir
 from homeassistant.setup import async_setup_component
 from homeassistant.util import dt as dt_util
-from jevclient import JevError, JevRateLimitError, NoulAnswer
 from pytest_homeassistant_custom_component.common import (
     MockConfigEntry,
     async_fire_time_changed,
 )
 
+from custom_components.jev.client import JevError, JevRateLimitError, NoulAnswer
 from custom_components.jev.const import (
     CONF_DAILY_TOKEN_BUDGET,
     DOMAIN,
@@ -243,7 +243,7 @@ async def test_an_unreachable_service_is_not_ready_rather_than_broken(
     hass, mock_client, config_entry
 ):
     """Setup must fail loudly, not leave a house full of entities that never fill."""
-    from jevclient import JevConnectionError
+    from custom_components.jev.client import JevConnectionError
 
     mock_client.ask.side_effect = JevConnectionError("no route to host")
     config_entry.add_to_hass(hass)
@@ -253,7 +253,7 @@ async def test_an_unreachable_service_is_not_ready_rather_than_broken(
 
 
 async def test_a_rejected_key_asks_for_a_new_one(hass, mock_client, config_entry):
-    from jevclient import JevAuthError
+    from custom_components.jev.client import JevAuthError
 
     mock_client.ask.side_effect = JevAuthError("key revoked")
     config_entry.add_to_hass(hass)
@@ -270,7 +270,7 @@ async def test_an_outage_is_logged_once_and_recovery_once(
     hass, mock_client, config_entry, caplog
 ):
     """A 30 s context would otherwise write thousands of identical lines a day."""
-    from jevclient import JevConnectionError
+    from custom_components.jev.client import JevConnectionError
 
     await setup_with_context(hass, config_entry)
     coordinator = next(iter(config_entry.runtime_data.coordinators.values()))
@@ -311,7 +311,7 @@ THREE_TYPES = {
 async def test_each_question_type_becomes_the_right_kind_of_sensor(
     hass, mock_client, config_entry
 ):
-    from jevclient import ChoiceAnswer, ScoreAnswer
+    from custom_components.jev.client import ChoiceAnswer, ScoreAnswer
 
     mock_client.ask.return_value = build_response(
         everything_forgotten=NoulAnswer(noul=0.42),

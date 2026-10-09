@@ -29,8 +29,8 @@ rules:
   dependency-transparency:
     status: done
     comment: >-
-      jevclient is MIT, source public at github.com/AboveColin/jevclient, built in
-      CI from that source and published to PyPI over trusted publishing.
+      The MIT Jev client is bundled in custom_components/jev/client. Original
+      source commits and retained licences are recorded in THIRD_PARTY.md.
   docs-actions: done
   docs-conditions:
     status: exempt
@@ -87,7 +87,7 @@ rules:
       agent all start it when TypeSafe rejects the key.
   test-coverage:
     status: done
-    comment: 97% measured across 882 tests, enforced in CI.
+    comment: 98% measured across 912 tests in this fork, enforced in CI.
 
   # Gold
   devices: done
@@ -176,4 +176,4 @@ rules:
       Assistant ships aiohttp and httpx, not httpx2.
   strict-typing:
     status: done
-    comment: mypy --strict passes on all 22 modules, enforced in CI.
+    comment: Strict typing covers the integration and bundled client, enforced in CI.

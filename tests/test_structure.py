@@ -9,8 +9,15 @@ import pytest
 import voluptuous as vol
 from homeassistant.exceptions import ServiceValidationError
 from homeassistant.helpers import selector
-from jevclient import Choice, ChoiceAnswer, Noul, NoulAnswer, Score, ScoreAnswer
 
+from custom_components.jev.client import (
+    Choice,
+    ChoiceAnswer,
+    Noul,
+    NoulAnswer,
+    Score,
+    ScoreAnswer,
+)
 from custom_components.jev.structure import (
     questions_from_structure,
     values_from_answers,

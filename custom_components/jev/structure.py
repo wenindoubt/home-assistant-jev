@@ -18,7 +18,8 @@ from typing import Any
 import voluptuous as vol
 from homeassistant.exceptions import ServiceValidationError
 from homeassistant.helpers import selector
-from jevclient import (
+
+from .client import (
     MAX_CHOICE_OPTIONS,
     MAX_SCORE_LEVELS,
     MIN_CHOICE_OPTIONS,
@@ -32,7 +33,6 @@ from jevclient import (
     Score,
     ScoreAnswer,
 )
-
 from .const import DOMAIN
 
 # Where a boolean field lands. A noul is a probability, and half is the only

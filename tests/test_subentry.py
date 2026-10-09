@@ -9,12 +9,18 @@ from homeassistant.const import CONF_API_KEY
 from homeassistant.data_entry_flow import FlowResultType
 from homeassistant.helpers import entity_registry as er
 from homeassistant.util import dt as dt_util
-from jevclient import Choice, ChoiceAnswer, NoulAnswer, Score, ScoreAnswer
 from pytest_homeassistant_custom_component.common import (
     MockConfigEntry,
     async_fire_time_changed,
 )
 
+from custom_components.jev.client import (
+    Choice,
+    ChoiceAnswer,
+    NoulAnswer,
+    Score,
+    ScoreAnswer,
+)
 from custom_components.jev.const import DOMAIN, SUBENTRY_QUESTION
 from custom_components.jev.subentry import parse_levels, parse_options
 
@@ -512,7 +518,7 @@ async def test_a_failed_trial_answer_does_not_block_saving(
     hass, mock_client, config_entry
 ):
     """The preview is a convenience. It must never stand between you and a save."""
-    from jevclient import JevError
+    from custom_components.jev.client import JevError
 
     config_entry.add_to_hass(hass)
     assert await hass.config_entries.async_setup(config_entry.entry_id)

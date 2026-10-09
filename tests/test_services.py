@@ -7,9 +7,9 @@ import voluptuous as vol
 from homeassistant.config_entries import SOURCE_REAUTH
 from homeassistant.const import CONF_API_KEY
 from homeassistant.exceptions import HomeAssistantError, ServiceValidationError
-from jevclient import ChoiceAnswer, NoulAnswer, ScoreAnswer, Usage
 from pytest_homeassistant_custom_component.common import MockConfigEntry
 
+from custom_components.jev.client import ChoiceAnswer, NoulAnswer, ScoreAnswer, Usage
 from custom_components.jev.const import DOMAIN, REQUEST_OVERHEAD_TOKENS
 from custom_components.jev.payload import payload_bytes
 
@@ -407,7 +407,7 @@ async def test_a_template_inside_a_structured_state_is_left_alone(
 
 
 async def test_a_rejected_key_during_an_action_says_so(hass, loaded_entry, mock_client):
-    from jevclient import JevAuthError
+    from custom_components.jev.client import JevAuthError
 
     mock_client.ask.side_effect = JevAuthError("revoked")
     with pytest.raises(HomeAssistantError) as err:
@@ -422,7 +422,7 @@ async def test_a_rejected_key_during_an_action_says_so(hass, loaded_entry, mock_
 async def test_a_transport_failure_during_an_action_says_so(
     hass, loaded_entry, mock_client
 ):
-    from jevclient import JevConnectionError
+    from custom_components.jev.client import JevConnectionError
 
     mock_client.ask.side_effect = JevConnectionError("no route")
     with pytest.raises(HomeAssistantError) as err:

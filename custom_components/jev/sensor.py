@@ -15,8 +15,8 @@ from homeassistant.const import EntityCategory, UnitOfInformation, UnitOfTime
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.util import dt as dt_util
-from jevclient import ChoiceAnswer, NoulAnswer, ScoreAnswer
 
+from .client import ChoiceAnswer, NoulAnswer, ScoreAnswer
 from .const import (
     ATTR_CONFIDENCE,
     ATTR_LEGEND,

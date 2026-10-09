@@ -12,8 +12,8 @@ from typing import Any, ClassVar
 
 import pytest
 from aiohttp.payload import JsonPayload
-from jevclient import Choice, JevClient, Noul, Score
 
+from custom_components.jev.client import Choice, JevClient, Noul, Score
 from custom_components.jev.const import BUDGET_ESTIMATE_MARGIN
 from custom_components.jev.coordinator import UsageAccount
 from custom_components.jev.payload import payload_bytes

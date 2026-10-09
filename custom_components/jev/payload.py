@@ -15,7 +15,7 @@ import json
 from collections.abc import Mapping
 from typing import Any
 
-from jevclient import Question
+from .client import Question
 
 
 def payload_bytes(state: Any, questions: Mapping[str, Question], model: str) -> int:

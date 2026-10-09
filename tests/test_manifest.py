@@ -5,26 +5,23 @@ import json
 import pathlib
 import re
 
-import jevclient
 import pytest
+
+from custom_components.jev import client as jevclient
 
 ROOT = pathlib.Path(__file__).parent.parent
 MANIFEST = json.loads((ROOT / "custom_components/jev/manifest.json").read_text())
 
 
-def test_the_pinned_client_is_the_one_under_test():
-    """A pin that drifts from the installed client makes the whole suite a lie.
-
-    Tests run against whatever is installed. Users get exactly what the manifest
-    pins. If those are different versions, everything below them proves nothing.
-    """
-    [requirement] = MANIFEST["requirements"]
-    name, _, pinned = requirement.partition("==")
-    assert name == "jevclient"
-    assert pinned == jevclient.__version__, (
-        f"manifest pins jevclient=={pinned} but the tests ran against "
-        f"{jevclient.__version__}"
+def test_the_bundled_client_is_the_one_under_test():
+    """Deployment and tests use the same owned client, with no PyPI dependency."""
+    assert MANIFEST["requirements"] == []
+    assert (
+        pathlib.Path(jevclient.__file__)
+        .resolve()
+        .is_relative_to(ROOT / "custom_components/jev/client")
     )
+    assert (ROOT / "custom_components/jev/client/LICENSE").is_file()
 
 
 def test_the_client_is_pinned_exactly():

@@ -2,13 +2,13 @@
   "domain": "jev",
   "name": "Jev (TypeSafe)",
   "after_dependencies": ["conversation", "recorder"],
-  "codeowners": ["@abovecolin"],
+  "codeowners": ["@wenindoubt"],
   "config_flow": true,
   "dependencies": [],
-  "documentation": "https://github.com/AboveColin/HA-Jev",
+  "documentation": "https://github.com/wenindoubt/home-assistant-jev",
   "integration_type": "service",
   "iot_class": "cloud_polling",
-  "issue_tracker": "https://github.com/AboveColin/HA-Jev/issues",
-  "requirements": ["jevclient==1.2.0"],
-  "version": "1.20.0"
+  "issue_tracker": "https://github.com/wenindoubt/home-assistant-jev/issues",
+  "requirements": [],
+  "version": "1.20.1"
 }

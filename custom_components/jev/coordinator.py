@@ -28,7 +28,8 @@ from homeassistant.helpers.target import (
 )
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 from homeassistant.util import dt as dt_util
-from jevclient import (
+
+from .client import (
     USD_PER_MILLION_INPUT_TOKENS,
     Answer,
     JevAuthError,
@@ -36,7 +37,6 @@ from jevclient import (
     JevError,
     JevRateLimitError,
 )
-
 from .const import (
     BUDGET_ESTIMATE_MARGIN,
     COLD_START_BYTES_PER_TOKEN,

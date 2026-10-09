@@ -1,139 +1,162 @@
-[![Tests](https://github.com/AboveColin/HA-Jev/actions/workflows/tests.yaml/badge.svg)](https://github.com/AboveColin/HA-Jev/actions/workflows/tests.yaml)
-[![hassfest](https://github.com/AboveColin/HA-Jev/actions/workflows/hassfest.yaml/badge.svg)](https://github.com/AboveColin/HA-Jev/actions/workflows/hassfest.yaml)
-[![HACS Action](https://github.com/AboveColin/HA-Jev/actions/workflows/hacs.yaml/badge.svg)](https://github.com/AboveColin/HA-Jev/actions/workflows/hacs.yaml)
-[![hacs_badge](https://img.shields.io/badge/HACS-Custom-orange.svg)](https://github.com/hacs/integration)
-[![Home Assistant](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2FAboveColin%2FHA-Jev%2Fmain%2Fhacs.json&query=%24.homeassistant&label=Home%20Assistant&prefix=%E2%89%A5%20&color=41BDF5&logo=homeassistant)](https://www.home-assistant.io/)
-[![GitHub release](https://img.shields.io/github/v/release/AboveColin/HA-Jev)](https://github.com/AboveColin/HA-Jev/releases)
-[![License](https://img.shields.io/github/license/AboveColin/HA-Jev)](LICENSE)
+# Home Assistant Jev
 
-# Jev for Home Assistant
+Private, independently maintained copy of [AboveColin/HA-Jev](https://github.com/AboveColin/HA-Jev),
+with its Python Jev client bundled in the same repository and an optional Rust API gateway.
 
-Ask [TypeSafe Jev](https://typesafe.ai) questions about your house and get numbers
-back. Jev is a decision model, not a chat model. It answers a typed question with a
-probability, a choice or a score, and this integration turns each answer into an
-entity you can automate on.
+Repository: https://github.com/wenindoubt/home-assistant-jev
 
-**[Full documentation](https://jev.cdevries.dev)**
+## What we control
 
-Not affiliated with TypeSafe. The API client is
-[jevclient](https://github.com/AboveColin/jevclient).
+- Integration source, Jev client source, prompts, routing safeguards and releases.
+- Whether and when upstream changes are merged.
+- Deployment to our Home Assistant, without relying on the author's PyPI releases.
+- An optional Rust transport service, with separate gateway and TypeSafe credentials.
 
-![Every question becomes an entity, with the day's spend beside it](docs/images/entities.png)
+We do **not** own Jev's model weights or control TypeSafe's hosted API. This is not
+an offline or self-hosted Jev model.
 
-## What it does
+## Current implementation
 
-- [Questions](https://jev.cdevries.dev/questions-ui/) become sensors: a probability,
-  one of your options with its distribution, or a number on a scale. Add them in the
-  UI, [in YAML](https://jev.cdevries.dev/questions-yaml/), or both.
-- Four [actions](https://jev.cdevries.dev/actions/), `jev.noul`, `jev.choice`,
-  `jev.score` and `jev.ask`, answer inside an automation and return a response
-  variable.
-- An [AI Task](https://jev.cdevries.dev/ai-task/) entity answers
-  `ai_task.generate_data` when it is called. A boolean, select or number field
-  becomes the matching question.
-- A [conversation agent](https://jev.cdevries.dev/conversation/) for Assist routes
-  spoken commands through the same model.
-- A [house check](https://jev.cdevries.dev/house-check/) opens a Repairs card for
-  entities unavailable for a week, low batteries and, in one request, states that
-  look like a mistake. A light left on can be turned off from its card and put back.
-- It [reports what it spends](https://jev.cdevries.dev/cost/): calls, input tokens and
-  estimated cost per day, against a daily token budget.
-- 25 [blueprints](https://jev.cdevries.dev/blueprints/) to import with one click.
-  Seven start from your own question, and 18 handle one situation each, such as a
-  forgotten washing machine or a window open while the heating runs.
-- Fifteen worked [examples](examples/), four of them pairing Jev with an LLM.
-
-```yaml
-automation:
-  - alias: Remind about the washing
-    triggers:
-      - trigger: state
-        entity_id: binary_sensor.jev_laundry_forgotten
-        to: "on"
-        for: "00:10:00"
-    actions:
-      - action: notify.mobile_app
-        data:
-          message: The washing is done and still in the machine.
+```text
+Siri Shortcut / Home Assistant Assist
+    -> Python conversation agent: exposed entities, typed questions, action policy
+    -> bundled Python Jev client
+        -> TypeSafe directly (default)
+        OR
+        -> our Rust gateway -> TypeSafe
+    -> Python agent validates routing and invokes Home Assistant intents
+    -> Assist returns a short response
 ```
 
-## Installation
+Home Assistant loads Python custom integrations, not Rust binaries. The Rust gateway
+speaks the same HTTP protocol the integration already understands. It does not need
+a Home Assistant token and cannot execute Home Assistant actions itself.
 
-Requires Home Assistant 2026.9 or newer and an API key from
-[typesafe.ai](https://typesafe.ai).
+**This is not a full Rust rewrite.** The existing conversation routing and Home
+Assistant lifecycle remain Python. The optional Rust service implements request
+validation, pooled HTTP transport, authentication, bounded concurrency, response
+validation and error handling. See [the architecture and next steps](docs/ARCHITECTURE.md).
 
-### HACS
+The default direct path does not require Rust. Adding a gateway introduces a network
+hop; it is not a demonstrated speed improvement. Jev API, speech recognition and device
+latency are likely to dominate ordinary daily commands.
 
-Jev is not in the HACS default list, so add it as a custom repository once.
+## Install the private integration
 
-1. HACS, then the three dot menu, then **Custom repositories**.
-2. Paste `https://github.com/AboveColin/HA-Jev`, set Type to **Integration**, **Add**.
-3. Search HACS for **Jev**, then **Download**.
-4. Restart Home Assistant.
+Requires Home Assistant **2026.9 or newer**. The integration version here is **1.20.1**.
 
-[![Open your Home Assistant instance and open a repository inside HACS.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=AboveColin&repository=HA-Jev&category=integration)
+[HACS does not support private repositories](https://www.hacs.xyz/docs/faq/private_repositories/).
+Do not add this private URL to HACS and expect it to download or update.
 
-### Manual
+1. Clone this repository with your own GitHub authentication.
+2. Run `python scripts/package_integration.py`. It produces `dist/jev.zip`.
+3. Back up any existing `/config/custom_components/jev` directory.
+4. Extract the archive into Home Assistant's config directory. The result must be
+   `/config/custom_components/jev/manifest.json`, including the bundled `client/`.
+5. Restart Home Assistant.
+6. Add **Jev (TypeSafe)** in **Settings -> Devices & services** and enter a TypeSafe API key.
+7. Create a daily-control Assist pipeline and select **Jev** as its conversation agent.
 
-Copy `custom_components/jev` from the
-[latest release](https://github.com/AboveColin/HA-Jev/releases/latest) into your
-`config/custom_components/` directory and restart. HACS does not update a copy
-installed this way.
+The domain stays `jev` for compatibility. This copy **replaces** upstream HA-Jev;
+the two cannot be installed side by side under the same domain. Remove the upstream
+HACS-managed installation before switching, after taking a backup, so HACS cannot
+overwrite this copy. Do not remove your config entry just to replace the files.
 
-## Setup
+Packaging does not deploy, restart, or modify a running Home Assistant. Updates are
+manual for now; no live installation has been performed as part of creating this repository.
 
-Settings, Devices and services, Add integration, then **Jev (TypeSafe)**. Enter your
-API key. The address field already holds the TypeSafe API.
+## Daily-control scope
 
-[![Open your Home Assistant instance and start setting up a new integration.](https://my.home-assistant.io/badges/config_flow_start.svg)](https://my.home-assistant.io/redirect/config_flow_start/?domain=jev)
+The inherited conversation agent supports on/off, toggle, light brightness and
+state queries through Home Assistant intents, including supported scene/script
+activation and room/floor targets. It is not an administrative agent.
 
-To use an OpenRouter key, set the address to `https://openrouter.ai/api` and the model
-to `~typesafe/jev-latest`. The [install page](https://jev.cdevries.dev/install/) has
-every option, and how to point the integration at a proxy.
+Expose only intended devices and approved scripts to Assist. Leave the fallback
+agent unset initially and the optional weekly house check disabled. Do not add
+question contexts, blueprints or other features unless deliberately wanted.
 
-Then [ask your first question](https://jev.cdevries.dev/first-question/).
+Locks and garage/gate/door covers are excluded. Compound commands, thermostat
+setpoints, playback, scheduled commands and exceptions are not all supported by the
+Jev agent. See [the retained conversation documentation](site-docs/conversation.md).
+An approved script is not a sandbox: review what it does before exposing it.
 
-## Documentation
+The upstream sensors, automation actions, AI Task and house-check features are still
+in the source. This baseline has **not** removed those features or introduced a new
+daily-control-only permission boundary.
 
-| Page | What it covers |
-|---|---|
-| [The three answers](https://jev.cdevries.dev/primitives/) | noul, choice and score, and what confidence means |
-| [Blueprints](https://jev.cdevries.dev/blueprints/) | automations to import, and how to share yours |
-| [Writing a question that works](https://jev.cdevries.dev/writing-questions/) | how to tell it to read the numbers, and asking one thing at a time |
-| [What it costs](https://jev.cdevries.dev/cost/) | what questions and calls cost, and the daily budget |
-| [Measurements](https://jev.cdevries.dev/measurements/) | what was measured against the live API |
-| [Troubleshooting](https://jev.cdevries.dev/troubleshooting/) | symptoms and their causes |
-| [Limitations](https://jev.cdevries.dev/limitations/) | what it cannot do, and what it is not for |
+## Optional Rust gateway
 
-## Contributing
+Build:
 
-Issues and pull requests are welcome. [CONTRIBUTING.md](CONTRIBUTING.md) has the full
-check a change must pass, and [AGENTS.md](AGENTS.md) the rules for coding agents.
-
-The easiest contribution is a blueprint. If an automation at your home asks Jev
-something, put it in `blueprints/automation/jev/` with a test case, and the
-[blueprint page](https://jev.cdevries.dev/blueprints/) credits you. Not writing it
-yourself? Open a
-[blueprint idea](https://github.com/AboveColin/HA-Jev/issues/new?template=blueprint_idea.yml).
-
-Use Python 3.14. The pinned `pytest-homeassistant-custom-component` requires it, and
-3.13 fails at install with "No matching distribution found".
-
-```bash
-pip install -r requirements-test.txt
-pytest
+```sh
+cargo build --release --locked -p jev-gateway
 ```
 
-The tests run the integration inside a real Home Assistant with the API client
-replaced, so the suite spends nothing.
+Set these environment variables in your service manager or secret store:
 
-## Supporting the project
+| Variable | Meaning |
+| --- | --- |
+| `TYPESAFE_API_KEY` | Real TypeSafe credential, held by the gateway |
+| `JEV_GATEWAY_TOKEN` | Independent random token, at least 32 characters |
+| `JEV_BIND` | Default `127.0.0.1:8093` |
+| `JEV_MODEL` | Default `jev-latest`; the requested model must match |
+| `JEV_UPSTREAM_URL` | Default `https://api.typesafe.ai` |
 
-Jev for Home Assistant is free and stays free. If it is useful to you, you can support its
-development through [GitHub Sponsors](https://github.com/sponsors/AboveColin).
-Sponsorship is voluntary and unlocks nothing: every feature, fix and security
-update ships in the public release.
+Generate a gateway token with `openssl rand -hex 32`. Do not commit secrets.
+The program does not automatically read a `.env` file.
 
-## Changelog
+Run `target/release/jev-gateway`. In the integration's configuration/reconfiguration:
 
-See the [release history](https://github.com/AboveColin/HA-Jev/releases).
+- API address: the gateway base URL, **without** `/v1/systemone`.
+- API key: the **gateway token**, not the TypeSafe key.
+- Model: the same value as `JEV_MODEL`.
+
+Use `http://127.0.0.1:8093` only when the gateway is reachable in Home Assistant's
+own network namespace. In HA OS or a container, localhost is not the host machine.
+For a separate host/container, deploy on a trusted network and put authenticated
+HTTPS termination in front of the gateway. The binary itself does not serve TLS.
+Do not expose its plain HTTP listener directly to the internet.
+
+The gateway forwards one request once, without automatic retries. It preserves
+upstream error status and Retry-After while redacting upstream error bodies.
+It pools connections, limits request/response sizes and allows eight concurrent
+evaluations. It logs neither command bodies nor credentials. The health endpoint
+is local process liveness, not a check of TypeSafe or Home Assistant.
+
+## Siri
+
+In the Home Assistant iOS app, an Apple Shortcut can use:
+
+1. **Dictate Text**
+2. **Home Assistant -> Assist prompt**, selecting the Jev daily-control pipeline
+3. **Speak Text**, using the returned response
+
+Invoke the named shortcut with Siri, then dictate the command. This does not replace
+Siri's native HomeKit interpretation. End-to-end Siri operation and multi-turn
+clarification still need testing on the actual phone and Home Assistant.
+
+## Development and verification
+
+Python 3.14 is required by the pinned Home Assistant test harness.
+
+```sh
+python3.14 -m venv .venv
+.venv/bin/pip install -r requirements-test.txt -r requirements-docs.txt ruff==0.16.8 mypy==2.3.1
+.venv/bin/ruff check custom_components tests scripts
+.venv/bin/ruff format --check custom_components tests scripts
+.venv/bin/mypy --strict --ignore-missing-imports custom_components/jev
+.venv/bin/pytest
+.venv/bin/mkdocs build --strict
+cargo fmt --all -- --check
+cargo clippy --workspace --all-targets --locked -- -D warnings
+cargo test --workspace --locked
+cargo build --locked -p jev-gateway
+.venv/bin/python scripts/smoke_gateway.py
+```
+
+Tests and the cross-language smoke check use fake credentials and mock endpoints.
+No live TypeSafe calls are needed. The smoke check exercises the bundled Python
+client -> Rust gateway -> local mock TypeSafe API, not a real device.
+
+See [third-party provenance](THIRD_PARTY.md) for source commits and MIT notices.
+The original upstream overview is retained in [docs/upstream-README.md](docs/upstream-README.md).

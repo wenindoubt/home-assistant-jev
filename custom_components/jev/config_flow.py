@@ -25,7 +25,9 @@ from homeassistant.core import callback
 from homeassistant.data_entry_flow import section
 from homeassistant.helpers import selector
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
-from jevclient import (
+from yarl import URL
+
+from .client import (
     DEFAULT_BASE_URL,
     DEFAULT_MODEL,
     USD_PER_MILLION_INPUT_TOKENS,
@@ -37,8 +39,6 @@ from jevclient import (
     JevValidationError,
     Noul,
 )
-from yarl import URL
-
 from .const import (
     CONF_ADVANCED,
     CONF_ALLOW_WHOLE_HOME,

@@ -14,12 +14,13 @@ from homeassistant.helpers.selector import selector
 from homeassistant.setup import async_setup_component
 from homeassistant.util import dt as dt_util
 from homeassistant.util.yaml import load_yaml
-from jevclient import ChoiceAnswer, NoulAnswer, ScoreAnswer
 from pytest_homeassistant_custom_component.common import (
     MockPlatform,
     async_fire_time_changed,
     mock_platform,
 )
+
+from custom_components.jev.client import ChoiceAnswer, NoulAnswer, ScoreAnswer
 
 from .kit import NO_WAIT, Case, at, change, run
 

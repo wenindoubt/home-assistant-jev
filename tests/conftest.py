@@ -5,9 +5,15 @@ from unittest.mock import DEFAULT, AsyncMock, patch
 import pytest
 from homeassistant.const import CONF_API_KEY
 from homeassistant.setup import async_setup_component
-from jevclient import ChoiceAnswer, JevResponse, NoulAnswer, ScoreAnswer, Usage
 from pytest_homeassistant_custom_component.common import MockConfigEntry
 
+from custom_components.jev.client import (
+    ChoiceAnswer,
+    JevResponse,
+    NoulAnswer,
+    ScoreAnswer,
+    Usage,
+)
 from custom_components.jev.const import DOMAIN
 
 API_KEY = "test-key-not-a-real-one"

@@ -12,11 +12,12 @@ from homeassistant.exceptions import HomeAssistantError
 from homeassistant.helpers import device_registry as dr
 from homeassistant.setup import async_setup_component
 from homeassistant.util import dt as dt_util
-from jevclient import ChoiceAnswer, NoulAnswer, ScoreAnswer
 from pytest_homeassistant_custom_component.common import (
     async_fire_time_changed,
     async_mock_service,
 )
+
+from custom_components.jev.client import ChoiceAnswer, NoulAnswer, ScoreAnswer
 
 from .kit import NO_WAIT, Case, at, change, run
 

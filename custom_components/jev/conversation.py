@@ -43,7 +43,8 @@ from homeassistant.helpers.chat_session import CONVERSATION_TIMEOUT
 from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from homeassistant.util import dt as dt_util
 from homeassistant.util import language as language_util
-from jevclient import (
+
+from .client import (
     Choice,
     ChoiceAnswer,
     JevAuthError,
@@ -53,7 +54,6 @@ from jevclient import (
     NoulAnswer,
     Question,
 )
-
 from .const import (
     CONF_ALLOW_WHOLE_HOME,
     CONF_FALLBACK_AGENT,

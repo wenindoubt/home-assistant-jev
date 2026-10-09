@@ -4,9 +4,7 @@ pytest==9.0.3
 pytest-asyncio==1.4.0
 pyyaml
 
-# The same version manifest.json pins, which is what Home Assistant installs for a
-# user. tests/test_manifest.py fails if these two ever disagree.
-jevclient==1.2.0
+# The Jev client ships in custom_components/jev/client, not from PyPI.
 
 # The conversation component's own requirements. Home Assistant installs these for a
 # user the moment a conversation agent exists; a test environment gets nothing

@@ -7,8 +7,8 @@ from typing import Any
 from homeassistant.components import system_health
 from homeassistant.const import CONF_URL
 from homeassistant.core import HomeAssistant, callback
-from jevclient import DEFAULT_BASE_URL
 
+from .client import DEFAULT_BASE_URL
 from .const import DOMAIN
 
 

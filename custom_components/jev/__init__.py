@@ -31,7 +31,9 @@ from homeassistant.helpers.storage import Store
 from homeassistant.helpers.typing import ConfigType
 from homeassistant.util import dt as dt_util
 from homeassistant.util import slugify
-from jevclient import (
+from yarl import URL
+
+from .client import (
     DEFAULT_BASE_URL,
     DEFAULT_MODEL,
     USD_PER_MILLION_INPUT_TOKENS,
@@ -40,8 +42,6 @@ from jevclient import (
     JevError,
     Noul,
 )
-from yarl import URL
-
 from .const import (
     CONF_BACKGROUND,
     CONF_CRITERIA,

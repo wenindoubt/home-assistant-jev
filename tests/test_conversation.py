@@ -24,8 +24,8 @@ from homeassistant.helpers import intent as ha_intent
 from homeassistant.helpers.chat_session import CONVERSATION_TIMEOUT
 from homeassistant.setup import async_setup_component
 from homeassistant.util import dt as dt_util
-from jevclient import ChoiceAnswer, NoulAnswer, ScoreAnswer, Usage
 
+from custom_components.jev.client import ChoiceAnswer, NoulAnswer, ScoreAnswer, Usage
 from custom_components.jev.const import (
     CONF_ALLOW_WHOLE_HOME,
     CONF_FALLBACK_AGENT,
@@ -533,7 +533,7 @@ async def test_a_voice_command_teaches_the_estimate(hass, house, mock_client):
 
 
 async def test_a_rejected_key_is_said_out_loud(hass, house, mock_client):
-    from jevclient import JevAuthError
+    from custom_components.jev.client import JevAuthError
 
     mock_client.ask.side_effect = JevAuthError("bad key")
     result = await converse(hass, "kitchen light on")
@@ -567,7 +567,7 @@ async def test_the_fallback_never_points_at_another_jev_agent(hass, house, mock_
 
 
 async def test_an_api_failure_acts_on_nothing(hass, house, mock_client):
-    from jevclient import JevError
+    from custom_components.jev.client import JevError
 
     mock_client.ask.side_effect = JevError("upstream is down")
     calls = []

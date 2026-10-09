@@ -40,9 +40,9 @@ from homeassistant.helpers.recorder import get_instance
 from homeassistant.helpers.state import async_reproduce_state
 from homeassistant.helpers.storage import Store
 from homeassistant.util import dt as dt_util
-from jevclient import Noul, NoulAnswer
 
 from .calibrate import recorded_states
+from .client import Noul, NoulAnswer
 from .const import (
     DOMAIN,
     HOUSE_CHECK_EVERY_DAYS,

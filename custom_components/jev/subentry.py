@@ -37,7 +37,8 @@ from homeassistant.exceptions import (
 from homeassistant.helpers import selector, translation
 from homeassistant.helpers.template import Template
 from homeassistant.util import dt as dt_util
-from jevclient import (
+
+from .client import (
     Answer,
     ChoiceAnswer,
     JevAuthError,
@@ -45,7 +46,6 @@ from jevclient import (
     NoulAnswer,
     ScoreAnswer,
 )
-
 from .const import (
     CONF_BACKGROUND,
     CONF_CRITERIA,

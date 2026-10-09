@@ -21,8 +21,9 @@ from typing import Any
 
 from homeassistant.core import HomeAssistant, ServiceCall, SupportsResponse
 from homeassistant.util import dt as dt_util
-from jevclient import ChoiceAnswer, NoulAnswer, ScoreAnswer
 from pytest_homeassistant_custom_component.common import async_fire_time_changed
+
+from custom_components.jev.client import ChoiceAnswer, NoulAnswer, ScoreAnswer
 
 from .kit import NO_WAIT, Case, at, run
 

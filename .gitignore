@@ -4,6 +4,12 @@ __pycache__/
 .venv/
 .coverage
 .pytest_cache/
+.mypy_cache/
+/target/
+/dist/
+.env
+.env.*
+!.env.example
 
 # mkdocs build output
 site/

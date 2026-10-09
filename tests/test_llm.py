@@ -8,9 +8,9 @@ from homeassistant.const import CONF_API_KEY
 from homeassistant.core import Context
 from homeassistant.helpers import llm
 from homeassistant.setup import async_setup_component
-from jevclient import ChoiceAnswer, NoulAnswer
 from pytest_homeassistant_custom_component.common import MockConfigEntry
 
+from custom_components.jev.client import ChoiceAnswer, NoulAnswer
 from custom_components.jev.const import CONF_LLM_TOOLS, DOMAIN
 
 from .conftest import PROBE_TOKENS, build_response

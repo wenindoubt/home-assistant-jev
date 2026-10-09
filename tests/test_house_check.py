@@ -14,12 +14,12 @@ from homeassistant.helpers import entity_registry as er
 from homeassistant.helpers import issue_registry as ir
 from homeassistant.setup import async_setup_component
 from homeassistant.util import dt as dt_util
-from jevclient import JevError, JevResponse, NoulAnswer, Usage
 from pytest_homeassistant_custom_component.common import (
     MockConfigEntry,
     async_fire_time_changed,
 )
 
+from custom_components.jev.client import JevError, JevResponse, NoulAnswer, Usage
 from custom_components.jev.const import (
     CONF_DAILY_TOKEN_BUDGET,
     CONF_HOUSE_CHECK_WEEKLY,

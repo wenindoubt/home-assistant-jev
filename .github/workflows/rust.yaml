@@ -1,0 +1,24 @@
+name: Rust
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy
+      - run: cargo fmt --all -- --check
+      - run: cargo clippy --workspace --all-targets --locked -- -D warnings
+      - run: cargo test --workspace --locked
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.14"
+      - run: pip install aiohttp==3.14.3
+      - run: cargo build --locked -p jev-gateway
+      - run: python scripts/smoke_gateway.py
