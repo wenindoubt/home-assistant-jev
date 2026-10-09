@@ -366,6 +366,16 @@
     }
   },
   "entity": {
+    "select": {
+      "response_style": {
+        "name": "Antwortstil",
+        "state": {
+          "minimal": "Minimal",
+          "jarvis": "Jarvis",
+          "pirate": "Pirat"
+        }
+      }
+    },
     "sensor": {
       "calls_today": {
         "name": "Aufrufe heute"
@@ -390,6 +400,9 @@
     }
   },
   "exceptions": {
+    "invalid_response_style": {
+      "message": "Antwortstil: {style}."
+    },
     "nothing_to_judge": {
       "message": "Nichts zu beurteilen: Gib dieser Aktion einen Text, oder wähle die Entitäten, Geräte oder Bereiche aus, die sie ansehen soll."
     },
@@ -497,6 +510,18 @@
     }
   },
   "common": {
+    "style_minimal_query": "{name}: {state}.",
+    "style_pirate_query": "{name}: {state}.",
+    "style_group_count": "{count} {state}",
+    "style_failed_targets": "Fehlgeschlagen: {names}.",
+    "style_jarvis_done": "Erledigt, wie gewünscht.",
+    "style_pirate_done": "Erledigt, Kapitän.",
+    "style_minimal_which_device": "Meinst du {first} oder {second}?",
+    "style_pirate_which_device": "Meinst du {first} oder {second}?",
+    "style_minimal_already_on": "{name} ist schon an.",
+    "style_minimal_already_off": "{name} ist schon aus.",
+    "style_pirate_already_on": "{name} ist schon an.",
+    "style_pirate_already_off": "{name} ist schon aus.",
     "not_understood": "Entschuldigung, das habe ich nicht verstanden.",
     "whole_house": "Das würde das ganze Haus betreffen. Sag, welchen Raum oder welches Gerät du meinst.",
     "which_kind": "Welche Art von Gerät meinst du? Sag die Lampen, oder die Schalter, oder nenne einen Raum.",

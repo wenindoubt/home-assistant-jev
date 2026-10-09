@@ -366,6 +366,16 @@
     }
   },
   "entity": {
+    "select": {
+      "response_style": {
+        "name": "Svarsstil",
+        "state": {
+          "minimal": "Minimal",
+          "jarvis": "Jarvis",
+          "pirate": "Pirat"
+        }
+      }
+    },
     "sensor": {
       "calls_today": {
         "name": "Anrop i dag"
@@ -390,6 +400,9 @@
     }
   },
   "exceptions": {
+    "invalid_response_style": {
+      "message": "Svarsstil: {style}."
+    },
     "nothing_to_judge": {
       "message": "Inget att bedöma: ge den här åtgärden en text, eller välj entiteterna, enheterna eller områdena den ska titta på."
     },
@@ -497,6 +510,18 @@
     }
   },
   "common": {
+    "style_minimal_query": "{name}: {state}.",
+    "style_pirate_query": "{name}: {state}.",
+    "style_group_count": "{count} {state}",
+    "style_failed_targets": "Misslyckades: {names}.",
+    "style_jarvis_done": "Klart, som önskat.",
+    "style_pirate_done": "Klart, kapten.",
+    "style_minimal_which_device": "Menar du {first} eller {second}?",
+    "style_pirate_which_device": "Menar du {first} eller {second}?",
+    "style_minimal_already_on": "{name} är redan på.",
+    "style_minimal_already_off": "{name} är redan av.",
+    "style_pirate_already_on": "{name} är redan på.",
+    "style_pirate_already_off": "{name} är redan av.",
     "not_understood": "Tyvärr, jag förstod inte det.",
     "whole_house": "Det skulle påverka hela huset. Säg vilket rum eller vilken enhet du menar.",
     "which_kind": "Vilken sorts sak menar du? Säg lamporna, eller strömbrytarna, eller nämn ett rum.",

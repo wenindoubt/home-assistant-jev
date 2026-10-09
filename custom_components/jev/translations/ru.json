@@ -366,6 +366,16 @@
     }
   },
   "entity": {
+    "select": {
+      "response_style": {
+        "name": "Стиль ответа",
+        "state": {
+          "minimal": "Минимальный",
+          "jarvis": "Jarvis",
+          "pirate": "Пиратский"
+        }
+      }
+    },
     "sensor": {
       "calls_today": {
         "name": "Вызовы за сегодня"
@@ -390,6 +400,9 @@
     }
   },
   "exceptions": {
+    "invalid_response_style": {
+      "message": "Стиль ответа: {style}."
+    },
     "nothing_to_judge": {
       "message": "Нечего оценивать: передайте этому действию текст или выберите объекты, устройства либо помещения, на которые оно должно смотреть."
     },
@@ -497,6 +510,18 @@
     }
   },
   "common": {
+    "style_minimal_query": "{name}: {state}.",
+    "style_pirate_query": "{name}: {state}.",
+    "style_group_count": "{count} {state}",
+    "style_failed_targets": "Не удалось: {names}.",
+    "style_jarvis_done": "Готово, как запрошено.",
+    "style_pirate_done": "Готово, капитан.",
+    "style_minimal_which_device": "Вы имеете в виду {first} или {second}?",
+    "style_pirate_which_device": "Вы имеете в виду {first} или {second}?",
+    "style_minimal_already_on": "{name} уже включён.",
+    "style_minimal_already_off": "{name} уже выключен.",
+    "style_pirate_already_on": "{name} уже включён.",
+    "style_pirate_already_off": "{name} уже выключен.",
     "not_understood": "Извините, я этого не понимаю.",
     "whole_house": "Это затронуло бы весь дом. Скажите, какую комнату или какое устройство вы имеете в виду.",
     "which_kind": "Что именно вы имеете в виду? Скажите свет, или выключатели, или назовите комнату.",

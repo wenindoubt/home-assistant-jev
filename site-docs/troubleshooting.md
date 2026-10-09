@@ -23,6 +23,10 @@ logger:
 | Setup fails with "could not reach the API" | No answer arrived. Check the address, DNS and the network from the Home Assistant host |
 | An AI Task is refused before it is sent | Read the message. It names the field and what its selector would have to be |
 | An error names a limit | It names your number too. 2 to 255 options, 2 to 10 levels, 250 entities |
+| Response style selector is missing | Install a version with response styles and restart once; the entity is under the Jev device |
+| A mode-switch script cannot find the selector | Replace its example select entity id with the id in your registry |
+| Pirate or Jarvis wording is unchanged | Personality wording currently applies to English; other languages retain localized replies |
+| A group question still lists devices | Mixed domains, numeric readings and unavailable states retain named readings instead of counts |
 | Voice commands all go to the fallback | Check the traces in diagnostics. Each one records the reason |
 | Voice acts on the wrong device | The names and areas in your entity registry are what the model reads |
 | A question you expected to batch went alone | Its target, template, schedule or triggers differ from the others. The preview says which |

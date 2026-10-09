@@ -1,5 +1,10 @@
 {
   "entity": {
+    "select": {
+      "response_style": {
+        "default": "mdi:comment-text-outline"
+      }
+    },
     "sensor": {
       "calls_today": {
         "default": "mdi:counter"

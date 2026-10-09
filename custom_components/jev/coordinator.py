@@ -41,6 +41,7 @@ from .const import (
     BUDGET_ESTIMATE_MARGIN,
     COLD_START_BYTES_PER_TOKEN,
     CONVERSATION_TRACE_LENGTH,
+    DEFAULT_RESPONSE_STYLE,
     DOMAIN,
     ISSUE_BUDGET_EXCEEDED,
     ISSUE_BUDGET_SPENT,
@@ -256,6 +257,9 @@ class JevRuntimeData:
     # pre-flight size check builds the same body the client posts, and the model is
     # part of that body.
     model: str = ""
+    # The select restores this independently of entry options, so changing speech
+    # never reloads the integration or sends a paid setup probe.
+    response_style: str = DEFAULT_RESPONSE_STYLE
     coordinators: dict[str, JevCoordinator] = field(default_factory=dict)
     model_version: str | None = None
     # What the conversation agent decided, most recent first. Bounded, because a

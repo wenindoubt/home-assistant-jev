@@ -71,10 +71,43 @@ A room or floor command always carries the kinds of device the model was shown. 
 Assistant otherwise acts on every exposed entity in the room, so "turn off the
 hallway" would reach a lock exposed there and unlock it.
 
-After an action it says the sentence Home Assistant's own agent says for the same
-command, in the pipeline's language, such as "Turned on the light". Those sentences
-come from Home Assistant's translations. Where they have none, as for a toggle, it
-says "Done."
+After an action the reply uses the live response style. Home Assistant's translations
+still supply state words, units and replies for languages other than English.
+
+## Live response styles
+
+On the Jev device, change **Response style** to **Minimal**, **Jarvis** or **Pirate**.
+Minimal is the default. There is no Standard profile. The next reply uses the new
+selection; changing it neither reloads the integration nor contacts TypeSafe.
+The select restores its last valid state after a normal restart.
+
+| Profile | Successful action | One state reading |
+|---|---|---|
+| Minimal | Done. | Desk lamp: on. |
+| Jarvis | Done, as requested. | Desk lamp is on |
+| Pirate | Aye, done. | Desk lamp be on. |
+
+The personality wording applies to English. Other languages retain the existing
+localized replies. The speaking voice is independent of the profile.
+
+A group of the same kind of device with on/off or open/closed states is counted
+rather than reading every name, for example "1 off, 2 on." Mixed kinds, numeric
+readings, units and unavailable-device readings retain their named answers.
+Clarifications still list both candidates. Error replies are not restyled as
+success. A partial failure says which targets Home Assistant reported as failed;
+the formatter does not alter Home Assistant's result metadata.
+
+The selector is a configuration entity and is not a new device-control domain.
+For optional voice switching, review and install
+[the three mode scripts](https://github.com/wenindoubt/home-assistant-jev/blob/main/examples/response_styles.yaml),
+replace the select entity id if your registry uses another one, and expose only
+those scripts to Assist. Say "Activate minimal mode", "Activate Jarvis mode" or
+"Activate pirate mode". Each script changes only the selector. The scripts are not
+installed or exposed automatically.
+
+All formatting is local. A voice mode change still costs the normal Jev
+interpretation call, but there is no extra generative reply call. Styles do not
+alter target selection, safeguards, budgets or the other Jev request paths.
 
 ## What it refuses
 

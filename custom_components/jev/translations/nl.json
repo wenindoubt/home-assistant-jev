@@ -366,6 +366,16 @@
     }
   },
   "entity": {
+    "select": {
+      "response_style": {
+        "name": "Antwoordstijl",
+        "state": {
+          "minimal": "Minimaal",
+          "jarvis": "Jarvis",
+          "pirate": "Piraat"
+        }
+      }
+    },
     "sensor": {
       "calls_today": {
         "name": "Aanroepen vandaag"
@@ -390,6 +400,9 @@
     }
   },
   "exceptions": {
+    "invalid_response_style": {
+      "message": "Antwoordstijl: {style}."
+    },
     "nothing_to_judge": {
       "message": "Niets om te beoordelen: geef deze actie tekst, of kies de entiteiten, apparaten of ruimtes waar hij naar moet kijken."
     },
@@ -497,6 +510,18 @@
     }
   },
   "common": {
+    "style_minimal_query": "{name}: {state}.",
+    "style_pirate_query": "{name}: {state}.",
+    "style_group_count": "{count} {state}",
+    "style_failed_targets": "Mislukt: {names}.",
+    "style_jarvis_done": "Gedaan, zoals gevraagd.",
+    "style_pirate_done": "Gedaan, kapitein.",
+    "style_minimal_which_device": "Bedoel je {first} of {second}?",
+    "style_pirate_which_device": "Bedoel je {first} of {second}?",
+    "style_minimal_already_on": "{name} staat al aan.",
+    "style_minimal_already_off": "{name} staat al uit.",
+    "style_pirate_already_on": "{name} staat al aan.",
+    "style_pirate_already_off": "{name} staat al uit.",
     "not_understood": "Sorry, dat begreep ik niet.",
     "whole_house": "Dat zou het hele huis raken. Zeg welke kamer of welk apparaat je bedoelt.",
     "which_kind": "Wat voor soort apparaat bedoel je? Zeg de lampen, of de schakelaars, of noem een kamer.",

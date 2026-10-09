@@ -366,6 +366,16 @@
     }
   },
   "entity": {
+    "select": {
+      "response_style": {
+        "name": "Response style",
+        "state": {
+          "minimal": "Minimal",
+          "jarvis": "Jarvis",
+          "pirate": "Pirate"
+        }
+      }
+    },
     "sensor": {
       "calls_today": {
         "name": "Calls today"
@@ -390,6 +400,9 @@
     }
   },
   "exceptions": {
+    "invalid_response_style": {
+      "message": "Unknown response style: {style}."
+    },
     "nothing_to_judge": {
       "message": "Nothing to judge: give this action some text, or pick the entities, devices or areas it should look at."
     },
@@ -497,6 +510,18 @@
     }
   },
   "common": {
+    "style_minimal_query": "{name}: {state}.",
+    "style_pirate_query": "{name} be {state}.",
+    "style_group_count": "{count} {state}",
+    "style_failed_targets": "Failed: {names}.",
+    "style_jarvis_done": "Done, as requested.",
+    "style_pirate_done": "Aye, done.",
+    "style_minimal_which_device": "Which: {first} or {second}?",
+    "style_pirate_which_device": "{first} or {second}, captain?",
+    "style_minimal_already_on": "{name}: already on.",
+    "style_minimal_already_off": "{name}: already off.",
+    "style_pirate_already_on": "{name}: already on, captain.",
+    "style_pirate_already_off": "{name}: already off, captain.",
     "not_understood": "Sorry, I did not understand that.",
     "whole_house": "That would affect the whole house. Say which room or which device you mean.",
     "which_kind": "Which kind of thing do you mean? Say the lights, or the switches, or name a room.",

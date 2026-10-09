@@ -275,3 +275,44 @@ The 0.8 that turns an answer into a card has no measurement behind it. The actio
 returns only the answers at 0.8 or more, and neither run had one, so these runs do not
 show where the other answers fell. The 10 % for a low battery is a starting value too: how many days a
 battery has left at 10 % differs by device.
+
+## Live response styles (1.21.0)
+
+Offline full suite: **957 passed, 13 skipped**, with **98%** statement coverage
+(3,087 of 3,163 statements). The config flow and new select platform each have
+100% coverage. The 44 response-style tests pass independently. The unchanged Rust
+gateway has 10 passing tests. All Jev clients are mocked; these tests make no paid
+TypeSafe requests.
+
+Selector changes make zero API calls and zero integration reloads in the tests.
+A voice mode switch through each reviewed example script makes one normal
+interpretation call, with no second call for wording. Tests also cover profile
+restoration, unknown saved values, unchanged targets and metadata, named
+clarifications, already-satisfied commands, English variants, other languages,
+units, unavailable readings, homogeneous group counts and stale SSML alternatives.
+
+Only the conversation reply path and the new select platform change. Contexts,
+automation actions, AI Task, question previews, payload building, budgeting and
+config flows are unaffected. The selector has a stable unique id, configuration
+category, icon and translated labels in every shipped language.
+
+Mutation check: disabling the failed-results guard makes all three profile
+partial-failure tests fail. Restoring it makes them pass. Failure names are those
+reported by Home Assistant's intent metadata, which is not rewritten. The pinned
+Home Assistant intent implementation pairs states with asynchronously completed
+service calls; completion order can vary its failure-name attribution. Speech
+profiles do not change that upstream behavior.
+
+Ruff, strict mypy, strict MkDocs, packaging and hassfest validation pass.
+Hassfest ran from the Home Assistant 2026.9.4 source validator because this machine's
+Docker socket requires privileged access. It reports one valid integration and
+zero invalid integrations. Its isolated dependency was installed under a temporary
+directory, not into the integration's test environment.
+
+The full suite emits one unawaited-coroutine warning in the system-health
+reachability test. Response-style tests emit no warnings. The system-health code
+is unchanged.
+
+These are local fixture results, not measurements from a phone or the user's live
+Home Assistant. The archive is prepared locally; publication and installation
+are separate steps.

@@ -366,6 +366,16 @@
     }
   },
   "entity": {
+    "select": {
+      "response_style": {
+        "name": "回复风格",
+        "state": {
+          "minimal": "极简",
+          "jarvis": "Jarvis",
+          "pirate": "海盗"
+        }
+      }
+    },
     "sensor": {
       "calls_today": {
         "name": "今日调用次数"
@@ -390,6 +400,9 @@
     }
   },
   "exceptions": {
+    "invalid_response_style": {
+      "message": "回复风格: {style}."
+    },
     "nothing_to_judge": {
       "message": "没有可判断的内容：请给此动作一些文本，或选择它要查看的实体、设备或区域。"
     },
@@ -497,6 +510,18 @@
     }
   },
   "common": {
+    "style_minimal_query": "{name}: {state}.",
+    "style_pirate_query": "{name}: {state}.",
+    "style_group_count": "{count} {state}",
+    "style_failed_targets": "失败: {names}.",
+    "style_jarvis_done": "好的，完成了, 按要求.",
+    "style_pirate_done": "好的，完成了, 船长.",
+    "style_minimal_which_device": "你是指{first}还是{second}？",
+    "style_pirate_which_device": "你是指{first}还是{second}？",
+    "style_minimal_already_on": "{name} 已经开着了。",
+    "style_minimal_already_off": "{name} 已经关着了。",
+    "style_pirate_already_on": "{name} 已经开着了。",
+    "style_pirate_already_off": "{name} 已经关着了。",
     "not_understood": "抱歉，我没听懂。",
     "whole_house": "那会影响整个住宅。请说明你指的是哪个房间或哪个设备。",
     "which_kind": "你指的是哪一类设备？可以说灯，或者开关，或者说出一个房间。",

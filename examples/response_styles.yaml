@@ -1,0 +1,31 @@
+# Merge this script: block into configuration.yaml (or its included script file).
+# Replace the select entity id if your entity registry uses a different one.
+# Expose only these three scripts to Assist after reviewing their single action.
+script:
+  jev_minimal_mode:
+    alias: Minimal mode
+    mode: single
+    sequence:
+      - action: select.select_option
+        target:
+          entity_id: select.jev_response_style
+        data:
+          option: minimal
+  jev_jarvis_mode:
+    alias: Jarvis mode
+    mode: single
+    sequence:
+      - action: select.select_option
+        target:
+          entity_id: select.jev_response_style
+        data:
+          option: jarvis
+  jev_pirate_mode:
+    alias: Pirate mode
+    mode: single
+    sequence:
+      - action: select.select_option
+        target:
+          entity_id: select.jev_response_style
+        data:
+          option: pirate

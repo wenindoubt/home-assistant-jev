@@ -25,6 +25,7 @@ from __future__ import annotations
 import json
 import logging
 import re
+from collections import Counter
 from collections.abc import Mapping
 from dataclasses import asdict, dataclass, field, replace
 from datetime import datetime
@@ -101,6 +102,18 @@ _FALLBACK = {
     "auth_failed": "TypeSafe rejected the API key. Check it in the Jev settings.",
     "unavailable": "TypeSafe did not answer. Try again in a moment.",
     "which_device": "Do you mean {first} or {second}?",
+    "style_minimal_query": "{name}: {state}.",
+    "style_pirate_query": "{name} be {state}.",
+    "style_group_count": "{count} {state}",
+    "style_failed_targets": "Failed: {names}.",
+    "style_jarvis_done": "Done, as requested.",
+    "style_pirate_done": "Aye, done.",
+    "style_minimal_which_device": "Which: {first} or {second}?",
+    "style_pirate_which_device": "{first} or {second}, captain?",
+    "style_minimal_already_on": "{name}: already on.",
+    "style_minimal_already_off": "{name}: already off.",
+    "style_pirate_already_on": "{name}: already on, captain.",
+    "style_pirate_already_off": "{name}: already off, captain.",
 }
 
 PARALLEL_UPDATES = 0
@@ -544,6 +557,7 @@ class JevConversationEntity(conversation.ConversationEntity, AbstractConversatio
             intent_response.async_set_speech(
                 spoken or (await self._lines(language))["done"]
             )
+        await self._apply_reply_style(intent_response, decision.intent_type, language)
         return conversation.ConversationResult(
             response=intent_response, conversation_id=user_input.conversation_id
         )
@@ -614,7 +628,100 @@ class JevConversationEntity(conversation.ConversationEntity, AbstractConversatio
             if shipped is not None and (name := _SHIPPED_SENTENCE.get(key)):
                 text = shipped.errors.get(name)
             lines[key] = text or ours.get(f"component.{DOMAIN}.common.{key}", fallback)
+        if language_util.matches(language, {"en"}):
+            style: str = self._entry.runtime_data.response_style
+            for key in ("done", "already_on", "already_off", "which_device"):
+                styled = lines.get(f"style_{style}_{key}")
+                if styled:
+                    lines[key] = styled
         return lines
+
+    async def _apply_reply_style(
+        self,
+        response: ha_intent.IntentResponse,
+        intent_type: str,
+        language: str,
+    ) -> None:
+        """Format actual results, never the model's prediction of an action.
+
+        Routing, slots, errors and result metadata stay untouched. Group summaries
+        are only for homogeneous binary states; numbers, units and unavailable
+        devices retain their named readings rather than disappear into a count.
+        English personalities are opt-in through the live selector. Other languages
+        keep Home Assistant's localized sentences.
+        """
+        if (
+            response.error_code
+            or response.response_type is ha_intent.IntentResponseType.ERROR
+        ):
+            return
+        lines = await self._lines(language)
+
+        def speak(text: str) -> None:
+            # Do not leave an old SSML alternative that a voice client could play
+            # instead of the new acknowledgement or explicit failure message.
+            response.speech.clear()
+            response.async_set_speech(text)
+
+        if response.failed_results:
+            speak(
+                lines["style_failed_targets"].format(
+                    names=", ".join(
+                        target.name or target.id or lines["intent_failed"]
+                        for target in response.failed_results
+                    )
+                )
+            )
+            return
+        if not language_util.matches(language, {"en"}):
+            return
+        if response.response_type is ha_intent.IntentResponseType.ACTION_DONE:
+            # A handler without results has not supplied evidence that every target
+            # succeeded. Keep its original wording instead of manufacturing "Done".
+            if response.success_results:
+                speak(lines["done"])
+            return
+        if response.response_type is not ha_intent.IntentResponseType.QUERY_ANSWER:
+            return
+        if intent_type != "HassGetState" or not response.matched_states:
+            return
+        states = list(
+            {
+                state.entity_id: state
+                for state in (*response.matched_states, *response.unmatched_states)
+            }.values()
+        )
+        if len(states) > 1:
+            if len({state.domain for state in states}) != 1:
+                return
+            values = {state.state for state in states}
+            if not (values <= {"on", "off"} or values <= {"open", "closed"}):
+                return
+            counts = Counter(
+                [
+                    await _state_word(self.hass, state, language) or state.state
+                    for state in states
+                ]
+            )
+            speak(
+                ", ".join(
+                    lines["style_group_count"].format(count=count, state=state)
+                    for state, count in sorted(counts.items())
+                )
+                + "."
+            )
+            return
+        style: str = self._entry.runtime_data.response_style
+        if style not in ("minimal", "pirate"):
+            return
+        state = states[0]
+        word = await _state_word(self.hass, state, language)
+        speak(
+            lines[f"style_{style}_query"].format(
+                name=state.name,
+                state=_SpokenState(self.hass, state, word).state_with_unit,
+            )
+        )
 
     async def _speak(
         self,

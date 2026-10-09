@@ -366,6 +366,16 @@
     }
   },
   "entity": {
+    "select": {
+      "response_style": {
+        "name": "Styl odpovědi",
+        "state": {
+          "minimal": "Minimální",
+          "jarvis": "Jarvis",
+          "pirate": "Pirátský"
+        }
+      }
+    },
     "sensor": {
       "calls_today": {
         "name": "Volání dnes"
@@ -390,6 +400,9 @@
     }
   },
   "exceptions": {
+    "invalid_response_style": {
+      "message": "Styl odpovědi: {style}."
+    },
     "nothing_to_judge": {
       "message": "Není co posuzovat: dejte této akci nějaký text, nebo vyberte entity, zařízení či oblasti, na které se má podívat."
     },
@@ -497,6 +510,18 @@
     }
   },
   "common": {
+    "style_minimal_query": "{name}: {state}.",
+    "style_pirate_query": "{name}: {state}.",
+    "style_group_count": "{count} {state}",
+    "style_failed_targets": "Selhalo: {names}.",
+    "style_jarvis_done": "Hotovo, podle požadavku.",
+    "style_pirate_done": "Hotovo, kapitáne.",
+    "style_minimal_which_device": "Myslíte {first}, nebo {second}?",
+    "style_pirate_which_device": "Myslíte {first}, nebo {second}?",
+    "style_minimal_already_on": "{name} už je zapnuto.",
+    "style_minimal_already_off": "{name} už je vypnuto.",
+    "style_pirate_already_on": "{name} už je zapnuto.",
+    "style_pirate_already_off": "{name} už je vypnuto.",
     "not_understood": "Promiňte, tomu jsem nerozuměl.",
     "whole_house": "To by ovlivnilo celý dům. Řekněte, kterou místnost nebo které zařízení máte na mysli.",
     "which_kind": "Jaký druh věcí máte na mysli? Řekněte světla, nebo vypínače, nebo jmenujte místnost.",

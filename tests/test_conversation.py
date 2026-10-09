@@ -875,7 +875,7 @@ async def test_a_floor_acts_on_that_floor_only(hass, house, mock_client):
 
     assert [c.data["entity_id"] for c in calls] == [["light.kitchen"]]
     assert "floor" in mock_client.ask.call_args.args[1]
-    assert result.response.speech["plain"]["speech"] == "Turned on the lights"
+    assert result.response.speech["plain"]["speech"] == "Done."
 
 
 async def test_the_model_is_shown_the_floor_aliases(hass, house, mock_client):
@@ -1154,7 +1154,7 @@ async def test_a_state_question_answers_without_changing_anything(
     # HassGetState finds the state and stops. The spoken sentence normally comes
     # from the default agent's templates, which this path never touches, so the
     # agent renders the same template itself.
-    assert result.response.speech["plain"]["speech"] == "Kitchen light is off"
+    assert result.response.speech["plain"]["speech"] == "Kitchen light: off."
 
 
 @pytest.mark.parametrize(
@@ -1162,7 +1162,7 @@ async def test_a_state_question_answers_without_changing_anything(
     [
         # The sentence comes from home-assistant-intents and the state word from
         # the light integration's own translations, so neither is written here.
-        ("en", "Kitchen light is off"),
+        ("en", "Kitchen light: off."),
         ("nl", "Kitchen light is uit"),
         ("it", "Kitchen light \u00e8 spento"),
         ("de", "Kitchen light ist aus"),
@@ -1447,7 +1447,7 @@ async def test_a_command_that_is_already_done_says_so(hass, house, mock_client):
     await hass.async_block_till_done()
 
     assert calls == []
-    assert result.response.speech["plain"]["speech"] == "Kitchen light is already on."
+    assert result.response.speech["plain"]["speech"] == "Kitchen light: already on."
 
 
 async def test_a_level_on_a_light_that_is_on_is_not_already_done(
@@ -2057,7 +2057,9 @@ async def test_an_action_says_what_the_default_agent_says(
 
     spoken = ours.response.speech["plain"]["speech"]
     assert spoken
-    assert spoken == theirs.response.speech["plain"]["speech"]
+    assert spoken == (
+        "Done." if language == "en" else theirs.response.speech["plain"]["speech"]
+    )
 
 
 @pytest.mark.parametrize(("language", "expected"), [("en", "Done."), ("nl", "Gedaan.")])
@@ -2089,7 +2091,7 @@ async def test_a_brightness_command_says_it_was_set(hass, house, mock_client):
 
     result = await converse(hass, "set the kitchen light to 40%")
 
-    assert result.response.speech["plain"]["speech"] == "Brightness set"
+    assert result.response.speech["plain"]["speech"] == "Done."
 
 
 # --- asking which device ---
@@ -2137,7 +2139,7 @@ async def test_two_devices_that_fit_the_name_get_a_question(hass, house, mock_cl
     assert result.conversation_id
     assert (
         result.response.speech["plain"]["speech"]
-        == "Do you mean Kitchen light or Office light?"
+        == "Which: Kitchen light or Office light?"
     )
 
 
@@ -2156,7 +2158,7 @@ async def test_a_sure_answer_is_still_asked_about_when_the_name_is_shared(
 
     assert calls == []
     assert result.response.speech["plain"]["speech"] == (
-        "Do you mean Lamp (Kitchen) or Lamp (Office)?"
+        "Which: Lamp (Kitchen) or Lamp (Office)?"
     )
 
 
@@ -2196,7 +2198,7 @@ async def test_a_shared_name_is_asked_about_when_none_got_most_of_the_answer(
 
     assert calls == []
     assert result.response.speech["plain"]["speech"] == (
-        "Do you mean Lamp (Kitchen) or Lamp (Office)?"
+        "Which: Lamp (Kitchen) or Lamp (Office)?"
     )
 
 
@@ -2328,7 +2330,7 @@ async def test_a_satellite_in_another_room_still_gets_the_question(
     )
 
     assert result.response.speech["plain"]["speech"] == (
-        "Do you mean Lamp (Kitchen) or Lamp (Office)?"
+        "Which: Lamp (Kitchen) or Lamp (Office)?"
     )
 
 
@@ -2424,7 +2426,7 @@ async def test_an_alias_shared_with_another_name_is_asked_about(hass, house, moc
     assert calls == []
     assert (
         result.response.speech["plain"]["speech"]
-        == "Do you mean Kitchen light or Reading light?"
+        == "Which: Kitchen light or Reading light?"
     )
 
 
@@ -2629,7 +2631,7 @@ async def test_the_same_name_in_two_rooms_is_asked_by_room(hass, house, mock_cli
     result = await converse(hass, "light on")
 
     assert result.response.speech["plain"]["speech"] == (
-        "Do you mean Kitchen light (Kitchen) or Kitchen light (Office)?"
+        "Which: Kitchen light (Kitchen) or Kitchen light (Office)?"
     )
 
 

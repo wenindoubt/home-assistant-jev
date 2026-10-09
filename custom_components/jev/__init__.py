@@ -82,6 +82,7 @@ PLATFORMS = [
     Platform.BINARY_SENSOR,
     Platform.CONVERSATION,
     Platform.SENSOR,
+    Platform.SELECT,
 ]
 
 type JevConfigEntry = ConfigEntry[JevRuntimeData]

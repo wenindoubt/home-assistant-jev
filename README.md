@@ -43,7 +43,7 @@ latency are likely to dominate ordinary daily commands.
 
 ## Install through HACS
 
-Requires Home Assistant **2026.9 or newer**. The integration version here is **1.20.1**.
+Requires Home Assistant **2026.9 or newer**. The integration version here is **1.21.0**.
 This repository is public and can be added to HACS as a custom repository.
 
 1. Open **HACS -> three-dot menu -> Custom repositories**.
@@ -87,6 +87,30 @@ An approved script is not a sandbox: review what it does before exposing it.
 The upstream sensors, automation actions, AI Task and house-check features are still
 in the source. This baseline has **not** removed those features or introduced a new
 daily-control-only permission boundary.
+
+## Live response styles
+
+The Jev device has a **Response style** select entity with exactly three choices:
+**Minimal** (default), **Jarvis**, and **Pirate**. Changes take effect on subsequent
+replies without restarting or reloading the integration. The selection is restored
+after a normal Home Assistant restart.
+
+English successful actions say "Done.", "Done, as requested.", or "Aye, done."
+Minimal and Pirate give short named state readings; Jarvis keeps Home Assistant's
+state wording. Homogeneous on/off or open/closed groups become compact counts.
+Numeric readings, units, mixed device kinds and unavailable-device readings are
+not flattened into counts. Other languages keep their localized responses.
+
+Errors remain explicit. Partial failures name the targets reported by Home
+Assistant's intent result instead of claiming the whole command succeeded.
+Styles do not change routing, permissions, confidence checks, request payloads,
+budgets, or the speaking voice. Formatting and selector changes make no API call.
+
+Optional reviewed [mode-switch scripts](examples/response_styles.yaml) let you say
+"Activate minimal mode", "Activate Jarvis mode", or "Activate pirate mode".
+Install the scripts separately, adjust the select entity id if needed, and expose
+only those scripts to Assist. They are not installed or exposed automatically.
+A spoken mode change is one normal paid Jev command, not an additional rewrite call.
 
 ## Optional Rust gateway
 

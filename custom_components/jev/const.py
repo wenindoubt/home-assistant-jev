@@ -4,6 +4,9 @@ from typing import Final
 
 DOMAIN: Final = "jev"
 
+RESPONSE_STYLES: Final = ("minimal", "jarvis", "pirate")
+DEFAULT_RESPONSE_STYLE: Final = "minimal"
+
 CONF_MODEL: Final = "model"
 # The address and the model live behind one collapsed section: both are for people
 # who run their own endpoint, and neither is touched by anyone who does not.
