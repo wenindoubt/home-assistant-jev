@@ -78,11 +78,11 @@ weights, have a local Jev inference mode or control TypeSafe availability.
 
 ## Deployment
 
-Our GitHub repository is private. HACS explicitly does not support private
-repositories. Package the integration and copy it through an authenticated
-operator-controlled deployment channel. Future automation should back up the old
-directory and support rollback; it should not embed GitHub or Home Assistant
-credentials in an archive or image.
+Our GitHub repository is public and can be installed through HACS as a custom
+Integration repository. HACS manages the Python integration, not the optional
+Rust service. A manually built archive remains available as an alternative.
+Back up an existing installation before replacement, and never embed TypeSafe,
+GitHub or Home Assistant credentials in the repository, an archive or an image.
 
 The `jev` domain is retained, so this integration replaces the upstream copy.
 No Home Assistant installation, device action, phone setup or API key validation

@@ -1,5 +1,7 @@
 name: HACS structure
 on:
+  push:
+  pull_request:
   workflow_dispatch:
 permissions:
   contents: read
@@ -12,4 +14,4 @@ jobs:
       - uses: hacs/action@main
         with:
           category: integration
-# HACS does not support private repositories. Keep this only for a future public release.
+# HACS cannot validate or install a private repository.

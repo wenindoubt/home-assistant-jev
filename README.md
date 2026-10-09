@@ -1,6 +1,6 @@
 # Home Assistant Jev
 
-Private, independently maintained copy of [AboveColin/HA-Jev](https://github.com/AboveColin/HA-Jev),
+Independently maintained copy of [AboveColin/HA-Jev](https://github.com/AboveColin/HA-Jev),
 with its Python Jev client bundled in the same repository and an optional Rust API gateway.
 
 Repository: https://github.com/wenindoubt/home-assistant-jev
@@ -41,29 +41,33 @@ The default direct path does not require Rust. Adding a gateway introduces a net
 hop; it is not a demonstrated speed improvement. Jev API, speech recognition and device
 latency are likely to dominate ordinary daily commands.
 
-## Install the private integration
+## Install through HACS
 
 Requires Home Assistant **2026.9 or newer**. The integration version here is **1.20.1**.
+This repository is public and can be added to HACS as a custom repository.
 
-[HACS does not support private repositories](https://www.hacs.xyz/docs/faq/private_repositories/).
-Do not add this private URL to HACS and expect it to download or update.
+1. Open **HACS -> three-dot menu -> Custom repositories**.
+2. Add `https://github.com/wenindoubt/home-assistant-jev` with category **Integration**.
+3. Open this repository's entry in HACS and download it.
+4. Restart Home Assistant.
+5. Add **Jev (TypeSafe)** in **Settings -> Devices & services** and enter a TypeSafe API key.
+6. Create a daily-control Assist pipeline and select **Jev** as its conversation agent.
 
-1. Clone this repository with your own GitHub authentication.
-2. Run `python scripts/package_integration.py`. It produces `dist/jev.zip`.
-3. Back up any existing `/config/custom_components/jev` directory.
-4. Extract the archive into Home Assistant's config directory. The result must be
-   `/config/custom_components/jev/manifest.json`, including the bundled `client/`.
-5. Restart Home Assistant.
-6. Add **Jev (TypeSafe)** in **Settings -> Devices & services** and enter a TypeSafe API key.
-7. Create a daily-control Assist pipeline and select **Jev** as its conversation agent.
+[Open this repository in HACS](https://my.home-assistant.io/redirect/hacs_repository/?owner=wenindoubt&repository=home-assistant-jev&category=integration)
 
 The domain stays `jev` for compatibility. This copy **replaces** upstream HA-Jev;
-the two cannot be installed side by side under the same domain. Remove the upstream
-HACS-managed installation before switching, after taking a backup, so HACS cannot
-overwrite this copy. Do not remove your config entry just to replace the files.
+the two cannot be installed side by side under the same domain. Back up an existing
+installation and remove upstream HACS management before switching, so the upstream
+repository cannot overwrite this copy. Do not remove your config entry just to replace files.
 
-Packaging does not deploy, restart, or modify a running Home Assistant. Updates are
-manual for now; no live installation has been performed as part of creating this repository.
+### Manual installation
+
+Run `python scripts/package_integration.py` to produce `dist/jev.zip`, then extract
+it into Home Assistant's config directory. The result must be
+`/config/custom_components/jev/manifest.json`, including the bundled `client/`.
+Restart Home Assistant afterward. A manual installation is not managed by HACS.
+
+Packaging only creates an archive; it does not deploy, restart, or modify Home Assistant.
 
 ## Daily-control scope
 

@@ -67,7 +67,7 @@ plugins:
         against an optional daily budget.
       sections:
         Getting started:
-          - owned-fork.md: Private installation and Rust architecture
+          - owned-fork.md: HACS installation and Rust architecture
           - index.md: What Jev is and what it answers
           - install.md: Requirements, HACS install and the API key
           - first-question.md: Add a question in the UI and read its sensor
@@ -112,7 +112,7 @@ markdown_extensions:
       alternate_style: true
 
 nav:
-  - Private fork: owned-fork.md
+  - Our fork: owned-fork.md
   - Home: index.md
   - Getting started:
       - Install: install.md

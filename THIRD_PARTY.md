@@ -1,7 +1,7 @@
 # Third-party source
 
-This private repository is an independently maintained copy, not a GitHub fork
-attached to the public upstream network. Original history and licences are retained.
+This public repository is an independently maintained copy, not a GitHub fork
+attached to the upstream network. Original history and licences are retained.
 
 | Component | Source | Snapshot | Licence |
 | --- | --- | --- | --- |

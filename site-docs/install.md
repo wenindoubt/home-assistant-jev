@@ -9,16 +9,16 @@ set up without one.
 Jev is not in the HACS default list, so add it as a custom repository once.
 
 1. Open HACS, then the three dot menu, then **Custom repositories**
-2. Paste `https://github.com/AboveColin/HA-Jev`, set Type to **Integration**, **Add**
+2. Paste `https://github.com/wenindoubt/home-assistant-jev`, set Type to **Integration**, **Add**
 3. Search HACS for **Jev**, then **Download**
 4. Restart Home Assistant
 
-[![Open your Home Assistant instance and open a repository inside HACS.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=AboveColin&repository=HA-Jev&category=integration)
+[![Open your Home Assistant instance and open a repository inside HACS.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=wenindoubt&repository=home-assistant-jev&category=integration)
 
 ## By hand
 
 Copy `custom_components/jev` from the
-[latest release](https://github.com/AboveColin/HA-Jev/releases/latest) into your
+[latest release](https://github.com/wenindoubt/home-assistant-jev/releases/latest) into your
 `config/custom_components/` directory and restart.
 
 !!! warning "HACS will not update a copy installed this way"
